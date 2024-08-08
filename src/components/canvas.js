@@ -5,7 +5,6 @@ class AppCanvas extends LitElement{
     constructor() {
         super();
         this.cards = [];
-        this.isPanning = false
         this.MouseX = 0;
         this.MouseY = 0;
         this.OffsetX = 0;
@@ -14,7 +13,6 @@ class AppCanvas extends LitElement{
 
     static get properties() {
         return {
-            isPanning: Boolean,
             cards: Array,
             MouseX: Number,
             MouseY: Number,
@@ -24,20 +22,22 @@ class AppCanvas extends LitElement{
     }
 
     static styles = css`
-    :host{
+    :host {
         display: block;
         position: relative;
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        cursor: none; /* Hide the default cursor */
     }
 
-    .canvas-content{
+    .canvas-content {
         position: absolute;
         width: 3000px;
         height: 3000px;
-        background-color: lightblue;
+        background-color: #f0f0f0;
     }
+
 
     `;
 
@@ -54,11 +54,50 @@ class AppCanvas extends LitElement{
     }
 
     handleMouseMove(event){
-        event.preventDefault();
         this.MouseX = event.clientX;
         this.MouseY = event.clientY;
-        console.log(this.MouseX, this.MouseY);
+        
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerheight / 2;
+        const deltaX = this.MouseX - centerX;
+        const deltaY = this.MouseY - centerY;
+
+        this.offsetX += deltaX * 0.01;
+        this.offsetY += deltaY * 0.01;
+
+        this.updateCanvasPosition();
     }
+
+    updateCanvasPosition(){
+        const canvasContent = this.shadowRoot.querySelector(".canvas-content");
+        canvasContent.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px)`
+    }
+
+    handleCanvasClick(event){
+        const rect = this.shadowRoot.querySelector('.canvas-content').getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        this.showModal(x, y);
+    }
+
+    showModal(x, y){
+        const modal = document.createElement('my-modal');
+        modal.x = x;
+        modal.y = y;
+        modal.addEventListener('confirm', () => this.addCard(x,y));
+        modal.addEventListener('cancel', () => modal.remove());
+        document.body.appendChild(modal);
+    }
+
+    addCard(x, y){
+        const title = prompt("Enter card  title:");
+        const content = prompt("Enter card content");
+        const newCard = { title, content, x, y};
+        this.cards = [...this.cards, newCard];
+        this.requestUpdate;
+    }
+
 
 
 }
