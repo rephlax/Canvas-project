@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import './MyCard.js';
+import './MyModal.js';
 
 class AppCanvas extends LitElement{
 
