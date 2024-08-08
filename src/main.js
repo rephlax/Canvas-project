@@ -1,1 +1,3 @@
-import './src/components/canvas.js';
+import './components/canvas.js';
+import './components/MyCard.js';
+import './components/MyModal.js';
