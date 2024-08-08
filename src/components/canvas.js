@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/npm/lit@2.0.0-rc.2/lit.min.js';
 import './MyCard.js';
 import './MyModal.js';
 
