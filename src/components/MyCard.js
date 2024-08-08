@@ -1,4 +1,4 @@
-import { LitElement, html, css } from './lit';
+import { LitElement, html, css } from 'https://cdn.jsdelivr.net/npm/lit@2.2.0/lit.min.js';
 
 class AppMyCard extends LitElement {
   static properties = {
