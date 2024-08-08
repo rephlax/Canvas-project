@@ -24,15 +24,29 @@ class AppCanvas extends LitElement{
     }
 
     static styles = css`
-    
+    :host{
+        display: block;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .canvas-content{
+        position: absolute;
+        width: 3000px;
+        height: 3000px;
+        background-color: lightblue;
+    }
+
     `;
 
-    render(){
-       return html `
-            <div class="canvas-content" @click="${this.handleCanvasClick}">
-            ${this.cards.map(card => html`<my-card .card="${card}"></my-card`)}
-            </div>
-       `;
+    render() {
+        return html`
+        <div class="canvas-content" @click="${this.handleCanvasClick}">
+            ${this.cards.map(card => html`<my-card .card="${card}"></my-card>`)}
+        </div>
+        `;
     }
 
     firstUpdated(){
